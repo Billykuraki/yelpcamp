@@ -1,7 +1,8 @@
+require('./db/mongoose');
+
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
     flash = require('connect-flash'),
     passport = require('passport'),
     LocalStrategy = require('passport-local'),
@@ -20,7 +21,7 @@ app.use(flash());
 // PASSPORT CONFIGURATION    
 
 app.use(require("express-session")({
-  secret: "cutest cat",
+  secret: process.env.PASSPORT_SECRET,
   resave: false,
   saveUninitialized: false
 }));
@@ -39,8 +40,6 @@ app.use(function(req, res, next){
   next();
 });
 
-mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true });
-// seedDB();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
@@ -50,7 +49,7 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(8000, function() {
-  console.log('YelpCamp has started');
+app.listen(process.env.PORT, function() {
+  console.log(`YelpCamp has started on port ${process.env.PORT}`);
 });
 
