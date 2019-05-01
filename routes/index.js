@@ -17,7 +17,9 @@ router.get("/register", function(req, res) {
 router.post("/register", function(req, res) {
 
   // TODO: wait for implementation
-  // if (req.body.invitationcode) 
+  if (req.body.invitationcode !== process.env.INVITECODE) {
+    return res.render("register", {error: "Invitation code error"});
+  }
 
   var newUser = new User({username: req.body.username});
   User.register(newUser, req.body.password, function(err, user) {
