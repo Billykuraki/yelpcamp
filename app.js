@@ -7,8 +7,6 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local'),
     methodOverride = require('method-override'),
-    Campground = require('./models/campground'),
-    Comment = require('./models/comment'),
     User = require("./models/user"),
     seedDB = require("./seeds");
 
@@ -33,7 +31,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // global variable
-app.use(function(req, res, next){
+app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
@@ -49,7 +47,7 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(process.env.PORT, function() {
+app.listen(process.env.PORT, () => {
   console.log(`YelpCamp has started on port ${process.env.PORT}`);
 });
 

@@ -1,20 +1,20 @@
-var express = require("express");
-var router = express.Router();
-var passport = require("passport");
-var User = require("../models/user");
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
+const User = require("../models/user");
 
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
   res.render('landing');
 });
 
 // ## Auth Route ##
 // show register form
-router.get("/register", function(req, res) {
+router.get("/register", (req, res) => {
   res.render("register", {page: "register"});
 });
 
 // handle sign up logic
-router.post("/register", function(req, res) {
+router.post("/register", (req, res) => {
 
   // TODO: wait for implementation
   if (req.body.invitationcode !== process.env.INVITECODE) {
@@ -35,7 +35,7 @@ router.post("/register", function(req, res) {
 });
 
 //show login form
-router.get("/login", function(req, res) {
+router.get("/login", (req, res) => {
   res.render("login", {page: "login"});
 });
 
@@ -48,7 +48,7 @@ router.post("/login", passport.authenticate(
 });
 
 // logout route'
-router.get("/logout", function(req, res){
+router.get("/logout", (req, res) => {
   req.logout();
   req.flash("success", "Logged you out");
   res.redirect("/campgrounds");
